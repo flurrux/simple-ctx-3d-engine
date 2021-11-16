@@ -50,7 +50,7 @@ setupSimpleCtx3dScene({
 });
 ```
  
-![video of a spiral polyline](./demo/spiral.gif)
+<img src="./demo/spiral.gif" alt="video of a spiral polyline" height="280">
 
 
 ## animated cube    
@@ -100,7 +100,7 @@ startLoop(
 );
 ```
 
-![video of a rotating cube bobbing up and down](./demo/rotating-cube.gif)
+<img src="./demo/rotating-cube.gif" alt="video of a rotating cube bobbing up and down" height="280">
 
 
 ## simple occlusion sorting  
@@ -147,8 +147,8 @@ setupSimpleCtx3dScene({
 
 with `const useOcclusionSorting = false;`  
 
-![two cubes side by side, the order of rendering is always the same and there is overlapping sometimes](./demo/sorting-disabled.gif)
+<img src="./demo/sorting-disabled.gif" alt="two cubes side by side, the order of rendering is always the same and there is overlapping sometimes" height="260">
 
 with `const useOcclusionSorting = true;`  
 
-![two cubes side by side, the order of rendering is always the same and there is overlapping sometimes](./demo/sorting-enabled.gif)
+<img src="./demo/sorting-enabled.gif" alt="two cubes side by side, the order of rendering is always so that the closer one is rendered later" height="260">
