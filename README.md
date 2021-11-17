@@ -19,7 +19,7 @@ see [occlusion sorting](#simple-occlusion-sorting) below.
 
 ## why would i use this over webgl?  
 
-granted, webgl is superior to this pathetic engine (if you can call it that) in almost every regard.  
+granted, webgl is superior to this humble engine (if you can call it that) in almost every regard.  
 however, there is so much overhead when setting up a webgl scene. for small projects i much prefer this lightweight and familiar engine (i'll call it an engine, suck it).  
 
 # example code
