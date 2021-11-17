@@ -28,8 +28,8 @@ however, there is so much overhead when setting up a webgl scene. for small proj
 ---
 
 ```
-import { normalizedValues } from "simple-ctx-3d-renderer/lib/array-range-util";
-import { setupSimpleCtx3dScene } from "simple-ctx-3d-renderer/src/index";
+import { normalizedValues } from "@flurrux/simple-ctx-3d-engine/lib/array-range-util";
+import { setupSimpleCtx3dScene } from "@flurrux/simple-ctx-3d-engine/src/index";
 
 const spiral = normalizedValues(500).map(v => v - 0.5).map(
 	p => {
@@ -58,15 +58,15 @@ setupSimpleCtx3dScene({
 ---
 
 ```
-import { setupSimpleCtx3dScene } from "simple-ctx-3d-renderer/src/index";
-import { startLoop } from "../lib/loop-util";
-import { multiplyMatrix, rotation, scale } from "../lib/mat3x3";
-import { add } from "../lib/vec3";
-import { cubeFaceMesh } from "../src/objects/cube-geometry";
-import { drawFaceMesh, FaceMesh } from "../src/objects/face-mesh";
-import { drawPolyline3D } from "../src/objects/polyline";
-import { XZQuadVertices } from "../src/objects/quad-geometry";
-import { setupSimpleCtx3dScene } from "../src/scene-setup";
+import { setupSimpleCtx3dScene } from "@flurrux/simple-ctx-3d-engine/src/index";
+import { startLoop } from "@flurrux/simple-ctx-3d-engine/lib/loop-util";
+import { multiplyMatrix, rotation, scale } from "@flurrux/simple-ctx-3d-engine/lib/mat3x3";
+import { add } from "@flurrux/simple-ctx-3d-engine/lib/vec3";
+import { cubeFaceMesh } from "@flurrux/simple-ctx-3d-engine/src/objects/cube-geometry";
+import { drawFaceMesh, FaceMesh } from "@flurrux/simple-ctx-3d-engine/src/objects/face-mesh";
+import { drawPolyline3D } from "@flurrux/simple-ctx-3d-engine/src/objects/polyline";
+import { XZQuadVertices } from "@flurrux/simple-ctx-3d-engine/src/objects/quad-geometry";
+import { setupSimpleCtx3dScene } from "@flurrux/simple-ctx-3d-engine/src/scene-setup";
 
 let cuboidMesh: FaceMesh = cubeFaceMesh;
 
@@ -107,12 +107,12 @@ startLoop(
 ---
 
 ```
-import { randomColor } from "../lib/random-util";
-import { vector3 } from "../lib/vec3";
-import { cubeFaceMesh } from "../src/objects/cube-geometry";
-import { drawFaceMesh, FaceMesh, getPosition } from "../src/objects/face-mesh";
-import { setupSimpleCtx3dScene } from "../src/scene-setup";
-import { sortByCamSpaceZ } from "../src/sorting-util";
+import { randomColor } from "@flurrux/simple-ctx-3d-engine/lib/random-util";
+import { vector3 } from "@flurrux/simple-ctx-3d-engine/lib/vec3";
+import { cubeFaceMesh } from "@flurrux/simple-ctx-3d-engine/src/objects/cube-geometry";
+import { drawFaceMesh, FaceMesh, getPosition } from "@flurrux/simple-ctx-3d-engine/src/objects/face-mesh";
+import { setupSimpleCtx3dScene } from "@flurrux/simple-ctx-3d-engine/src/scene-setup";
+import { sortByCamSpaceZ } from "@flurrux/simple-ctx-3d-engine/src/sorting-util";
 
 type FaceMeshWithColor = FaceMesh & { color: string };
 
