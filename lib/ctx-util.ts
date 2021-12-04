@@ -18,6 +18,7 @@ export const drawPolygon = (ctx: CanvasRenderingContext2D, polygon: Vector2[], s
 
 
 export const pathPolyline = (ctx: CanvasRenderingContext2D, polyline: Vector2[]) => {
+	if (polyline.length < 2) return;
 	ctx.beginPath();
 	ctx.moveTo(...polyline[0]);
 	polyline.slice(1).map(point => ctx.lineTo(...point));
