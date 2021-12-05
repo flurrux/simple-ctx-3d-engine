@@ -1,17 +1,16 @@
 import { flow } from 'fp-ts/lib/function';
 import { Morphism, Transformation, Vector2, Vector3 } from '../lib/types';
-import { OrbitCamera, toRegularCamera } from './camera/orbit-camera';
 import { setupOrbitCameraControl } from './camera/orbit-camera-control';
-import { PerspectiveCamera } from './camera/perspective-camera';
-import { camPointToScreenPoint, worldPointToCamPoint } from './space-conversion';
+import { camPointToScreenPoint, ViewportSettings, viewportToCanvas, worldPointToCamPoint } from './space-conversion';
 import { adjustCanvasSizeToWindow, autoAdjustCanvasSize, createCanvasInBody } from '../lib/canvas-util';
+import { assignRadiusToOrthoSizeIfOrthographic, CameraWithProjectionSettings, OrbitCamera, toRegularCameraWithProjectionSettings } from './camera/orbit-camera';
 
 
 type Vec3ToVec2 = Morphism<Vector3, Vector2>;
 
 type RenderFuncArgs = {
 	ctx: CanvasRenderingContext2D,
-	camera: PerspectiveCamera,
+	camera: CameraWithProjectionSettings,
 	width: number, height: number,
 	worldToCam: Morphism<Vector3, Vector3>,
 	camToCanvas: Vec3ToVec2,
@@ -24,7 +23,8 @@ export type SceneArgs = {
 	canvas?: HTMLCanvasElement,
 	backgroundColor?: string,
 	renderScene: Morphism<RenderFuncArgs, void>,
-	onCamChanged?: Morphism<OrbitCamera, void>
+	onCamChanged?: Morphism<OrbitCamera, void>,
+	initialCamera?: OrbitCamera
 };
 
 type CamTransformation = Transformation<OrbitCamera>;
@@ -33,8 +33,6 @@ export type SceneController = {
 	transformCamera: Morphism<CamTransformation, void>,
 	performRender: () => void
 };
-
-
 
 export function setupSimpleCtx3dScene(args: SceneArgs): SceneController {
 	
@@ -51,10 +49,22 @@ export function setupSimpleCtx3dScene(args: SceneArgs): SceneController {
 		adjustCanvasSizeToWindow(canvas);
 	}
 
-	let camera: OrbitCamera = {
-		radius: 10,
-		latitude: 0,
-		longitude: 0,
+	const viewportSettings: ViewportSettings = {
+		normalizedOffset: [0.5, 0.5],
+		scale: 200
+	};
+
+	let camera: OrbitCamera = args.initialCamera || {
+		orbitParams: {
+			radius: 5,
+			latitude: 0,
+			longitude: 0,
+		},
+		orbitCenter: [0, 0, 0],
+		projectionSettings: {
+			fieldOfViewDeg: 56
+			// size: 5
+		}
 	};
 
 	const transformCamera = (transformation: CamTransformation) => {
@@ -66,36 +76,28 @@ export function setupSimpleCtx3dScene(args: SceneArgs): SceneController {
 	const backgroundColor = args.backgroundColor || "#d4d3d2";
 
 	const render = () => {
-
 		const { canvas } = ctx;
 		const [w, h] = [canvas.width, canvas.height];
 
 		ctx.save();
+		
 		ctx.fillStyle = backgroundColor;
 		ctx.fillRect(0, 0, w, h);
-		ctx.translate(w / 2, h / 2);
-		ctx.scale(window.devicePixelRatio, -window.devicePixelRatio);
+		// ctx.translate(w / 2, h / 2);
+		// ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
 
-		const perspectiveCam = {
-			...toRegularCamera(camera),
-			settings: {
-				planeWidthHalf: canvas.width,
-				planeHeightHalf: canvas.height,
-				zScale: 2000
-			}
-		} as PerspectiveCamera;
-		
 		Object.assign(ctx, {
 			strokeStyle: "#3b3a39",
 			lineWidth: 2,
 			lineJoin: "round"
 		} as Partial<CanvasRenderingContext2D>);
 
-		const worldToCam = worldPointToCamPoint(perspectiveCam);
-		const camToCanvas = camPointToScreenPoint(ctx, perspectiveCam);
+		const regularCam = toRegularCameraWithProjectionSettings(camera);
+		const worldToCam = worldPointToCamPoint(regularCam);
+		const camToCanvas = camPointToScreenPoint(viewportSettings, camera.projectionSettings, ctx);
 		args.renderScene({
 			ctx, width: w, height: h,
-			camera: perspectiveCam,
+			camera: regularCam,
 			worldToCam, camToCanvas,
 			worldToCanvas: flow(worldToCam, camToCanvas)
 		});
@@ -105,8 +107,15 @@ export function setupSimpleCtx3dScene(args: SceneArgs): SceneController {
 
 	setupOrbitCameraControl(
 		canvas, 
-		(transformation) => {
-			transformCamera(transformation);
+		(transformOrbitParams) => {
+			transformCamera(
+				(cam) => assignRadiusToOrthoSizeIfOrthographic(
+					({
+						...cam,
+						orbitParams: transformOrbitParams(cam.orbitParams),
+					})
+				) 
+			);
 			if (args.onCamChanged){
 				args.onCamChanged(camera);
 			}

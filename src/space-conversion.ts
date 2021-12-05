@@ -1,35 +1,42 @@
-import { flow } from 'fp-ts/lib/function';
+import { flow, identity } from 'fp-ts/lib/function';
 import { multiplyVector } from '../lib/mat3x3';
 import { Vector2, Vector3 } from '../lib/types';
 import * as Vec3 from '../lib/vec3';
-import { PerspectiveCamera, projectPoint } from './camera/perspective-camera';
+import { Camera } from './camera/camera';
+import { makeProjectionFunc, ProjectionFunc, ProjectionSettings } from './camera/combined-projection';
 
-export const viewportToCanvas = (ctx: CanvasRenderingContext2D) => {
+export type ViewportSettings = {
+	scale: number,
+	normalizedOffset: Vector2
+};
+
+export const viewportToCanvas = (settings: ViewportSettings) => (ctx: CanvasRenderingContext2D) => {
 	const canvas = ctx.canvas;
+	const scale = settings.scale;
 	return (point: Vector2): Vector2 => {
 		return [
-			point[0] * canvas.offsetWidth / 2,
-			point[1] * canvas.offsetHeight / 2
-		];
+			+point[0] * scale + canvas.width * settings.normalizedOffset[0],
+			-point[1] * scale + canvas.height * settings.normalizedOffset[1]
+		]
 	};
 };
 
-export const camPointToScreenPoint = (ctx: CanvasRenderingContext2D, camera: PerspectiveCamera) => (camPoint: Vector3): Vector2 => {
-	return viewportToCanvas(ctx)(
-		projectPoint(camera.settings)(
-			camPoint
-		)
-	)
+
+export const camPointToScreenPoint = (viewport: ViewportSettings, projSettings: ProjectionSettings, ctx: CanvasRenderingContext2D): ProjectionFunc => {
+	return flow(
+		makeProjectionFunc(projSettings, ctx.canvas),
+		viewportToCanvas(viewport)(ctx)
+	);
 };
 
-export const worldPointToCamPoint = (camera: PerspectiveCamera) => (worldPoint: Vector3): Vector3 => {
+export const worldPointToCamPoint = (camera: Camera) => (worldPoint: Vector3): Vector3 => {
 	return multiplyVector(
 		camera.inverseMatrix,
 		Vec3.subtract(worldPoint, camera.transform.position)
 	)
 };
 
-export const worldPointToScreenPoint = (ctx: CanvasRenderingContext2D, camera: PerspectiveCamera) => flow(
+export const worldPointToScreenPoint = (ctx: CanvasRenderingContext2D, camera: Camera, settings: ProjectionSettings, viewport: ViewportSettings) => flow(
 	worldPointToCamPoint(camera),
-	camPointToScreenPoint(ctx, camera)
+	camPointToScreenPoint(viewport, settings, ctx)
 );

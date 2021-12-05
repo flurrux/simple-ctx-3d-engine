@@ -1,7 +1,7 @@
 import { Morphism, Transformation } from "../../lib/types";
-import { OrbitCamera } from "./orbit-camera";
+import { OrbitParams } from "./orbit-rig";
 
-export function setupOrbitCameraControl<T extends OrbitCamera>(
+export function setupOrbitCameraControl<T extends OrbitParams>(
 	canvas: HTMLCanvasElement, 
 	transformCamera: Morphism<Transformation<T>, void>) {
 	

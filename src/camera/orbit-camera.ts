@@ -1,32 +1,45 @@
-import { inverse, multiplyMatrix, rotation } from "../../lib/mat3x3";
+import { inverse } from "../../lib/mat3x3";
 import { Transform } from "../../lib/transform";
-import { Matrix3, Vector3 } from "../../lib/types";
+import { Vector3 } from "../../lib/types";
+import { add } from "../../lib/vec3";
 import { Camera } from "./camera";
-import * as Vec3 from '../../lib/vec3';
+import { isPerspectiveSetting } from "./combined-projection";
+import { calculateTransform, OrbitParams } from "./orbit-rig";
+import { OrthographicSettings } from "./orthographic-projection";
+import { PerspectiveSettings } from "./perspective-projection";
+
+type ProjectionSettings = PerspectiveSettings | OrthographicSettings;
 
 export type OrbitCamera = {
-	radius: number,
-	latitude: number,
-	longitude: number,
+	orbitParams: OrbitParams,
+	orbitCenter: Vector3,
+	projectionSettings: ProjectionSettings
 };
 
-function calculateOrientation(orbitCam: OrbitCamera): Matrix3 {
-	const rotationMatrix1 = rotation([0, orbitCam.longitude, 0]);
-	const rotationMatrix2 = rotation([orbitCam.latitude, 0, 0]);
-	return multiplyMatrix(rotationMatrix1, rotationMatrix2);
-}
+export type CameraWithProjectionSettings = Camera & {
+	projectionSettings: ProjectionSettings
+};
 
-function calculateTransform(orbitCam: OrbitCamera): Transform {
-	const orientation = calculateOrientation(orbitCam);
-	const forward = orientation.slice(6) as Vector3;
-	const position = Vec3.multiply(forward, -orbitCam.radius);
-	return { position, orientation }
-}
-
-export function toRegularCamera(orbitCam: OrbitCamera): Camera {
-	const transform = calculateTransform(orbitCam);
+export function toRegularCameraWithProjectionSettings(orbitCam: OrbitCamera): CameraWithProjectionSettings {
+	const localTransform = calculateTransform(orbitCam.orbitParams);
+	const transform: Transform = {
+		...localTransform,
+		position: add(localTransform.position, orbitCam.orbitCenter)	
+	};
 	return {
 		transform, 
-		inverseMatrix: inverse(transform.orientation)
+		inverseMatrix: inverse(transform.orientation),
+		projectionSettings: orbitCam.projectionSettings
+	}
+}
+
+export function assignRadiusToOrthoSizeIfOrthographic(camera: OrbitCamera): OrbitCamera {
+	if (isPerspectiveSetting(camera.projectionSettings)) return camera;
+	return {
+		...camera,
+		projectionSettings: {
+			...camera.projectionSettings,
+			size: camera.orbitParams.radius
+		}
 	}
 }

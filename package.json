@@ -1,12 +1,10 @@
 {
   "name": "@flurrux/simple-ctx-3d-engine",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "render very simple shapes in 3D using the power of CanvasRenderingContext2D",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "parcel dev/index.html",
-    "build": "parcel build src/index.html",
-    "prepublish": "npm run build"
+    "start": "parcel dev/index.html"
   },
   "author": "Christian Hoffmann <christianhoffmann@outlook.com>",
   "license": "ISC",
@@ -14,10 +12,12 @@
     "fp-ts": "^2.10.4"
   },
   "files": [
-    "/src", "/lib"
+    "/src",
+    "/lib"
   ],
   "devDependencies": {
     "cssnano": "^4.1.10",
+    "parcel": "^2.0.1",
     "typescript": "^3.9.9"
   }
 }
