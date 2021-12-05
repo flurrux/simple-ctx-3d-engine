@@ -32,21 +32,21 @@ import { normalizedValues } from "@flurrux/simple-ctx-3d-engine/lib/array-range-
 import { setupSimpleCtx3dScene } from "@flurrux/simple-ctx-3d-engine/src/index";
 
 const spiral = normalizedValues(500).map(v => v - 0.5).map(
-	p => {
-		const angle = 80 * p;
-		const radius = 0.3 * (1 + 0.6 * Math.cos(6 * p));
-		return vector3(
-			radius * Math.sin(angle),
-			radius * Math.cos(angle),
-			3 * p
-		)
-	}
+  p => {
+    const angle = 80 * p;
+    const radius = 0.3 * (1 + 0.6 * Math.cos(6 * p));
+    return vector3(
+      radius * Math.sin(angle),
+      radius * Math.cos(angle),
+      3 * p
+    )
+  }
 );
 
 setupSimpleCtx3dScene({
-	renderScene: (args) => {
-		drawPolyline3D(args)(spiral, { lineWidth: 3, strokeStyle: "#b26be8" });
-	}
+  renderScene: (args) => {
+    drawPolyline3D(args)(spiral, { lineWidth: 3, strokeStyle: "#b26be8" });
+  }
 });
 ```
  
@@ -71,32 +71,32 @@ import { setupSimpleCtx3dScene } from "@flurrux/simple-ctx-3d-engine/src/scene-s
 let cuboidMesh: FaceMesh = cubeFaceMesh;
 
 const sceneController = setupSimpleCtx3dScene({
-	renderScene: (args) => {
-		drawPolyline3D(args)(
-			XZQuadVertices.map(v => add(v, [0, -1.2, 0])), 
-			{ strokeStyle: "#292929", lineWidth: 3 }
-		);
-		drawFaceMesh(args)(
-			cuboidMesh,
-			{ fillStyle: "#42b6f5", strokeStyle: "#292929", lineWidth: 3 }
-		);
-	}
+  renderScene: (args) => {
+    drawPolyline3D(args)(
+      XZQuadVertices.map(v => add(v, [0, -1.2, 0])), 
+      { strokeStyle: "#292929", lineWidth: 3 }
+    );
+    drawFaceMesh(args)(
+      cuboidMesh,
+      { fillStyle: "#42b6f5", strokeStyle: "#292929", lineWidth: 3 }
+    );
+  }
 });
 
 startLoop(
-	({t}) => {
-		cuboidMesh = {
-			...cuboidMesh,
-			transform: {
-				position: [0, Math.sin(t) * 0.26, 0],
-				orientation: multiplyMatrix(
-					rotation([0, t, 0]),
-					scale([0.5, 1.7, 0.5])
-				)
-			}
-		};
-		sceneController.performRender();
-	}
+  ({t}) => {
+    cuboidMesh = {
+      ...cuboidMesh,
+      transform: {
+        position: [0, Math.sin(t) * 0.26, 0],
+        orientation: multiplyMatrix(
+          rotation([0, t, 0]),
+          scale([0.5, 1.7, 0.5])
+        )
+      }
+    };
+    sceneController.performRender();
+  }
 );
 ```
 
@@ -117,31 +117,31 @@ import { sortByCamSpaceZ } from "@flurrux/simple-ctx-3d-engine/src/sorting-util"
 type FaceMeshWithColor = FaceMesh & { color: string };
 
 const cubes: FaceMeshWithColor[] = [vector3(-1.2, 0, 0), vector3(+1.2, 0, 0)].map(
-	position => ({
-		...cubeFaceMesh,
-		transform: {
-			...cubeFaceMesh.transform,
-			position,
-		},
-		color: randomColor()
-	})
+  position => ({
+    ...cubeFaceMesh,
+    transform: {
+      ...cubeFaceMesh.transform,
+      position,
+    },
+    color: randomColor()
+  })
 );
 
 const useOcclusionSorting = false;
 
 setupSimpleCtx3dScene({
-	renderScene: (args) => {
-		let cubesToRender = cubes;
-		if (useOcclusionSorting){
-			cubesToRender = sortByCamSpaceZ(getPosition, args.worldToCam)(cubes);
-		}
-		cubesToRender.forEach(
-			cube => drawFaceMesh(args)(
-				cube,
-				{ fillStyle: cube.color, strokeStyle: "#292929", lineWidth: 3 }
-			)
-		);
-	}
+  renderScene: (args) => {
+    let cubesToRender = cubes;
+    if (useOcclusionSorting){
+      cubesToRender = sortByCamSpaceZ(getPosition, args.worldToCam)(cubes);
+    }
+    cubesToRender.forEach(
+      cube => drawFaceMesh(args)(
+        cube,
+          { fillStyle: cube.color, strokeStyle: "#292929", lineWidth: 3 }
+      )
+    );
+  }
 });
 ```
 
