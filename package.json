@@ -1,5 +1,6 @@
 {
   "name": "@flurrux/simple-ctx-3d-engine",
+  "repository": "git://github.com/flurrux/simple-ctx-3d-engine.git",
   "version": "1.0.1",
   "description": "render very simple shapes in 3D using the power of CanvasRenderingContext2D",
   "scripts": {
