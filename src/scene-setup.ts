@@ -51,7 +51,7 @@ export function setupSimpleCtx3dScene(args: SceneArgs): SceneController {
 
 	const viewportSettings: ViewportSettings = {
 		normalizedOffset: [0.5, 0.5],
-		scale: 200
+		scale: 1
 	};
 
 	let camera: OrbitCamera = args.initialCamera || {

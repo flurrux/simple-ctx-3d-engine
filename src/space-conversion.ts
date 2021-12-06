@@ -15,8 +15,8 @@ export const viewportToCanvas = (settings: ViewportSettings) => (ctx: CanvasRend
 	const scale = settings.scale;
 	return (point: Vector2): Vector2 => {
 		return [
-			+point[0] * scale + canvas.width * settings.normalizedOffset[0],
-			-point[1] * scale + canvas.height * settings.normalizedOffset[1]
+			+point[0] * scale * canvas.width + canvas.width * settings.normalizedOffset[0],
+			-point[1] * scale * canvas.height + canvas.height * settings.normalizedOffset[1]
 		]
 	};
 };
