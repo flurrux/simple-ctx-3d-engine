@@ -62,8 +62,8 @@ export function setupSimpleCtx3dScene(args: SceneArgs): SceneController {
 		},
 		orbitCenter: [0, 0, 0],
 		projectionSettings: {
-			fieldOfViewDeg: 56
-			// size: 5
+			// fieldOfViewDeg: 56
+			size: 5
 		}
 	};
 

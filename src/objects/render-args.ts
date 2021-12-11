@@ -1,9 +1,9 @@
 import { Morphism, Vector2, Vector3 } from "../../lib/types";
-import { Camera } from "../camera/camera";
+import { CameraWithProjectionSettings } from "../camera/orbit-camera";
 
 export type RenderArgs = {
 	ctx: CanvasRenderingContext2D,
-	camera: Camera,
+	camera: CameraWithProjectionSettings,
 	worldToCanvas: Morphism<Vector3, Vector2>,
 	worldToCam: Morphism<Vector3, Vector3>,
 	camToCanvas: Morphism<Vector3, Vector2>,

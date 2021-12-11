@@ -3,6 +3,10 @@ import { makeOrthographicPlane, OrthographicSettings } from "./orthographic-proj
 import { makeFrustum, PerspectiveSettings, projectPoint as perspectiveProject } from './perspective-projection';
 import { projectPoint as orthoProject } from './orthographic-projection';
 
+export type ProjectionType = "orthographic" | "perspective";
+export function getProjectionType(setting: ProjectionSettings): ProjectionType {
+	return isPerspectiveSetting(setting) ? "perspective" : "orthographic";
+}
 
 export type ProjectionSettings = PerspectiveSettings | OrthographicSettings;
 export function isPerspectiveSetting(setting: ProjectionSettings): setting is PerspectiveSettings {

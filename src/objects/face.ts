@@ -1,6 +1,7 @@
 import { Transform, transformPoint, transformTransform } from "../../lib/transform";
 import { Morphism, Vector2, Vector3 } from "../../lib/types";
 import { add, dot } from "../../lib/vec3";
+import { ProjectionType } from "../camera/combined-projection";
 
 export type FaceObject = {
 	transform: Transform,
@@ -11,17 +12,18 @@ type TransformOwner = {
 	transform: Transform
 };
 
-
-
-export const isPlaneTransformFacingCameraInCamSpace = (transform: Transform): boolean => {
-	return dot(
-		transform.position,
-		transform.orientation.slice(6) as Vector3
-	) < 0;
+export const isPlaneTransformFacingCameraInCamSpace = (projType: ProjectionType) => (transform: Transform): boolean => {
+	const planeNormal = transform.orientation.slice(6) as Vector3;
+	if (projType === "perspective"){
+		return dot(transform.position, planeNormal) < 0;
+	}
+	if (projType === "orthographic"){
+		return dot(planeNormal, [0, 0, 1]) < 0;
+	}
 };
 
-export const isFacingCamInCamSpace = <T extends TransformOwner>(face: T): boolean => {
-	return isPlaneTransformFacingCameraInCamSpace(face.transform);
+export const isFacingCamInCamSpace = (projType: ProjectionType) => <T extends TransformOwner>(face: T): boolean => {
+	return isPlaneTransformFacingCameraInCamSpace(projType)(face.transform);
 };
 
 

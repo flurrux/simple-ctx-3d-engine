@@ -72,17 +72,17 @@ setupSimpleCtx3dScene({
 		// 	drawDisc3D(args)(10, { fillStyle: "orange", strokeStyle: "black", lineWidth: 3 })
 		// );
 		
-		drawWireMesh(args)(outlineMesh, { strokeStyle: "black", lineWidth: 3 });
+		// drawWireMesh(args)(outlineMesh, { strokeStyle: "black", lineWidth: 3 });
 
 		// drawPolyline3D(args)(
 		// 	XZQuadVertices.map(v => add(v, [0, 0, 0])), 
 		// 	{ strokeStyle: "#292929", lineWidth: 3 }
 		// );
 
-		// drawFaceMesh(args)(
-		// 	cuboidMesh,
-		// 	{ fillStyle: "#42b6f5", strokeStyle: "#292929", lineWidth: 3 }
-		// );
+		drawFaceMesh(args)(
+			cubeFaceMesh,
+			{ fillStyle: "#42b6f5", strokeStyle: "#292929", lineWidth: 3 }
+		);
 		
 		// drawPolyline3D(args)(spiral, { lineWidth: 3, strokeStyle: "#b26be8" });
 		

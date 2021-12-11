@@ -1,10 +1,10 @@
 import { filter, map } from "fp-ts/lib/Array";
 import { pipe } from "fp-ts/lib/function";
-import { pathPolygon } from "../../../rigidbody-rotation-sim/src/face-rendering";
 import { drawPolygon, drawPolyline } from "../../lib/ctx-util";
 import { Transform } from "../../lib/transform";
 import { Vector2, Vector3 } from "../../lib/types";
 import { transformTransformToCamSpace } from "../camera/camera";
+import { getProjectionType } from "../camera/combined-projection";
 import { FaceObject, isFacingCamInCamSpace, projectVertices, transformFace } from "./face";
 import { RenderArgs } from "./render-args";
 
@@ -23,11 +23,12 @@ export function getPosition<T extends TransformOwner>(t: T): Vector3 {
 
 export const drawFaceMesh = (args: RenderArgs) => (faceMesh: FaceMesh, style?: Partial<CanvasRenderingContext2D>) => {
 	const { faces, transform } = faceMesh;
+	const projType = getProjectionType(args.camera.projectionSettings);
 	const camSpaceTransform = transformTransformToCamSpace(args.camera)(transform);
 	const canvasPolygons = pipe(
 		faces,
 		map(transformFace(camSpaceTransform)),
-		filter(isFacingCamInCamSpace),
+		filter(isFacingCamInCamSpace(projType)),
 		map(projectVertices(args.camToCanvas))
 	);
 
