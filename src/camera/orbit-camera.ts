@@ -16,6 +16,19 @@ export type OrbitCamera = {
 	projectionSettings: ProjectionSettings
 };
 
+export const defaultOrbitCamera: OrbitCamera = {
+	orbitParams: {
+		radius: 5,
+		latitude: 0,
+		longitude: 0,
+	},
+	orbitCenter: [0, 0, 0],
+	projectionSettings: {
+		fieldOfViewDeg: 56
+		// size: 5
+	}
+};
+
 export type CameraWithProjectionSettings = Camera & {
 	projectionSettings: ProjectionSettings
 };

@@ -3,12 +3,12 @@ import { Morphism, Transformation, Vector2, Vector3 } from '../lib/types';
 import { setupOrbitCameraControl } from './camera/orbit-camera-control';
 import { camPointToScreenPoint, ViewportSettings, viewportToCanvas, worldPointToCamPoint } from './space-conversion';
 import { adjustCanvasSizeToWindow, autoAdjustCanvasSize, createCanvasInBody } from '../lib/canvas-util';
-import { assignRadiusToOrthoSizeIfOrthographic, CameraWithProjectionSettings, OrbitCamera, toRegularCameraWithProjectionSettings } from './camera/orbit-camera';
+import { assignRadiusToOrthoSizeIfOrthographic, CameraWithProjectionSettings, defaultOrbitCamera, OrbitCamera, toRegularCameraWithProjectionSettings } from './camera/orbit-camera';
 
 
 type Vec3ToVec2 = Morphism<Vector3, Vector2>;
 
-type RenderFuncArgs = {
+export type RenderFuncArgs = {
 	ctx: CanvasRenderingContext2D,
 	camera: CameraWithProjectionSettings,
 	width: number, height: number,
@@ -54,18 +54,7 @@ export function setupSimpleCtx3dScene(args: SceneArgs): SceneController {
 		scale: 1
 	};
 
-	let camera: OrbitCamera = args.initialCamera || {
-		orbitParams: {
-			radius: 5,
-			latitude: 0,
-			longitude: 0,
-		},
-		orbitCenter: [0, 0, 0],
-		projectionSettings: {
-			// fieldOfViewDeg: 56
-			size: 5
-		}
-	};
+	let camera: OrbitCamera = args.initialCamera || defaultOrbitCamera;
 
 	const transformCamera = (transformation: CamTransformation) => {
 		camera = transformation(camera);
