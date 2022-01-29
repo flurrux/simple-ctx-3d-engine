@@ -11,12 +11,15 @@ export type ViewportSettings = {
 };
 
 export const viewportToCanvas = (settings: ViewportSettings) => (ctx: CanvasRenderingContext2D) => {
-	const canvas = ctx.canvas;
+	const { canvas } = ctx;
+	const { normalizedOffset } = settings;
+	const [offsetX, offsetY] = normalizedOffset;
 	const scale = settings.scale;
 	return (point: Vector2): Vector2 => {
+		const [w, h] = [canvas.clientWidth, canvas.clientHeight];
 		return [
-			+point[0] * scale * canvas.width + canvas.width * settings.normalizedOffset[0],
-			-point[1] * scale * canvas.height + canvas.height * settings.normalizedOffset[1]
+			w * (offsetX + point[0] * scale),
+			h * (offsetY - point[1] * scale)
 		]
 	};
 };

@@ -17,6 +17,7 @@ export function setupOrbitCameraControl<T extends OrbitParams>(
 		);
 	});
 	canvas.addEventListener("wheel", e => {
+		e.preventDefault();
 		transformCamera(
 			cam => ({
 				...cam,
