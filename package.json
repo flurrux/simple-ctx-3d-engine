@@ -5,7 +5,8 @@
   "description": "render very simple shapes in 3D using the power of CanvasRenderingContext2D",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "parcel dev/index.html"
+    "start": "parcel dev/index.html",
+    "build:js": "esbuild ./src/index.ts --bundle --minify --format=esm --outfile=./dist/index.js"
   },
   "author": "Christian Hoffmann <christianhoffmann@outlook.com>",
   "license": "ISC",
@@ -18,6 +19,7 @@
   ],
   "devDependencies": {
     "cssnano": "^4.1.10",
+    "esbuild": "^0.14.47",
     "parcel": "^2.0.1",
     "typescript": "^3.9.9"
   }

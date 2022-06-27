@@ -5,14 +5,21 @@ export function setupOrbitCameraControl<T extends OrbitParams>(
 	canvas: HTMLCanvasElement, 
 	transformCamera: Morphism<Transformation<T>, void>) {
 	
-	canvas.addEventListener("mousemove", e => {
-		if (e.buttons !== 1) return;
-		const s = 0.01;
+	const dragSensitivity = 0.01;
+	const zoomSensitivity = 0.001;
+
+	let dragging = false;
+	canvas.addEventListener(
+		"pointerdown", 
+		() => dragging = true
+	);
+	document.addEventListener("pointermove", e => {
+		if (!dragging) return;
 		transformCamera(
 			cam => ({
 				...cam,
-				longitude: cam.longitude + e.movementX * s,
-				latitude: cam.latitude + e.movementY * s
+				longitude: cam.longitude + e.movementX * dragSensitivity,
+				latitude: cam.latitude + e.movementY * dragSensitivity
 			})
 		);
 	});
@@ -21,7 +28,7 @@ export function setupOrbitCameraControl<T extends OrbitParams>(
 		transformCamera(
 			cam => ({
 				...cam,
-				radius: cam.radius * (1 + e.deltaY * 0.001)
+				radius: cam.radius * (1 + e.deltaY * zoomSensitivity)
 			})
 		);
 	});
