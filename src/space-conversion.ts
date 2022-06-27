@@ -1,4 +1,4 @@
-import { flow, identity } from 'fp-ts/lib/function';
+import { flow, identity } from 'fp-ts/es6/function';
 import { multiplyVector } from '../lib/mat3x3';
 import { Vector2, Vector3 } from '../lib/types';
 import * as Vec3 from '../lib/vec3';

@@ -1,4 +1,4 @@
-import { isNone, none, Option, some } from "fp-ts/lib/Option";
+import { isNone, none, Option, some } from "fp-ts/es6/Option";
 import { Vector2, Vector3 } from "../../lib/types";
 import { Camera } from '../camera/camera';
 import { PerspectiveCamera } from '../camera/perspective-camera';

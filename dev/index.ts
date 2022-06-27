@@ -1,5 +1,5 @@
-import { range } from "fp-ts/lib/Array";
-import { flow, identity } from "fp-ts/lib/function";
+import { range } from "fp-ts/es6/Array";
+import { flow, identity } from "fp-ts/es6/function";
 import { drawDisc } from "../lib/ctx-util";
 import { randomColor } from "../lib/random-util";
 import { Vector3 } from "../lib/types";

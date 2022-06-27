@@ -1,4 +1,4 @@
-import { range } from "fp-ts/lib/Array";
+import { range } from "fp-ts/es6/Array";
 
 export const rangeFrom0 = (length: number): number[] => range(0, length - 1);
 

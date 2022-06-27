@@ -1,4 +1,4 @@
-import { flow } from 'fp-ts/lib/function';
+import { flow } from 'fp-ts/es6/function';
 import { Morphism, Transformation, Vector2, Vector3 } from '../lib/types';
 import { setupOrbitCameraControl } from './camera/orbit-camera-control';
 import { camPointToScreenPoint, ViewportSettings, viewportToCanvas, worldPointToCamPoint } from './space-conversion';

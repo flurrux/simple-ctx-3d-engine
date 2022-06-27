@@ -1,5 +1,5 @@
-import { range, sort } from "fp-ts/lib/Array";
-import { flow, pipe } from "fp-ts/lib/function";
+import { range, sort } from "fp-ts/es6/Array";
+import { flow, pipe } from "fp-ts/es6/function";
 import { Morphism, Vector2, Vector3 } from "../lib/types";
 
 

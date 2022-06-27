@@ -1,5 +1,5 @@
-import { filter, map } from "fp-ts/lib/Array";
-import { pipe } from "fp-ts/lib/function";
+import { filter, map } from "fp-ts/es6/Array";
+import { pipe } from "fp-ts/es6/function";
 import { drawPolygon, drawPolyline } from "../../lib/ctx-util";
 import { Transform } from "../../lib/transform";
 import { Vector2, Vector3 } from "../../lib/types";
