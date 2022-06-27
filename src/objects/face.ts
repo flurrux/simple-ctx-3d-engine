@@ -17,9 +17,7 @@ export const isPlaneTransformFacingCameraInCamSpace = (projType: ProjectionType)
 	if (projType === "perspective"){
 		return dot(transform.position, planeNormal) < 0;
 	}
-	if (projType === "orthographic"){
-		return dot(planeNormal, [0, 0, 1]) < 0;
-	}
+	return dot(planeNormal, [0, 0, 1]) < 0;
 };
 
 export const isFacingCamInCamSpace = (projType: ProjectionType) => <T extends TransformOwner>(face: T): boolean => {

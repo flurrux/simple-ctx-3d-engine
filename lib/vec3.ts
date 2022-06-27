@@ -1,4 +1,4 @@
-import { Vector2, Vector3 } from "./types";
+import { Vector3 } from "./types";
 
 type Vec3 = [number, number, number];
 

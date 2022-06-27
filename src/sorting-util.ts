@@ -1,6 +1,6 @@
-import { range, sort } from "fp-ts/es6/Array";
-import { flow, pipe } from "fp-ts/es6/function";
-import { Morphism, Vector2, Vector3 } from "../lib/types";
+import { range } from "fp-ts/es6/Array";
+import { flow } from "fp-ts/es6/function";
+import { Morphism, Vector3 } from "../lib/types";
 
 
 export const sortByCamSpaceZ = <T>(

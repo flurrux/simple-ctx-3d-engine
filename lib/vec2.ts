@@ -1,4 +1,4 @@
-import { interpolate as lerpNum } from '../src/util';
+import { interpolate as lerpNum } from './linear-mapping';
 
 type Vec2 = [number, number];
 

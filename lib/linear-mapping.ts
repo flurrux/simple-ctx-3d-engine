@@ -1,3 +1,4 @@
+
 export function normalize(from: number, to: number, value: number): number {
 	return (value - from) / (to - from);
 }

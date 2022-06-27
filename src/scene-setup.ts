@@ -34,20 +34,23 @@ export type SceneController = {
 	performRender: () => void
 };
 
+function getOrCreateCanvas(
+	args: SceneArgs, 
+	onCanvasResized: Morphism<void, void>): HTMLCanvasElement {
+
+	if (args.canvas) return args.canvas;
+	
+	const canvas = createCanvasInBody();
+	autoAdjustCanvasSize(canvas, onCanvasResized);
+	adjustCanvasSizeToWindow(canvas);
+	return canvas;
+}
+
 export function setupSimpleCtx3dScene(args: SceneArgs): SceneController {
 	
-	let canvas: HTMLCanvasElement = null;
-	if (args.canvas){
-		canvas = args.canvas;
-	}
-	else {
-		canvas = createCanvasInBody();
-		autoAdjustCanvasSize(
-			canvas, 
-			() => render()
-		);
-		adjustCanvasSizeToWindow(canvas);
-	}
+	const canvas = getOrCreateCanvas(
+		args, () => render()
+	);
 
 	const viewportSettings: ViewportSettings = {
 		normalizedOffset: [0.5, 0.5],
@@ -61,7 +64,7 @@ export function setupSimpleCtx3dScene(args: SceneArgs): SceneController {
 		render();
 	};
 
-	const ctx = canvas.getContext("2d");
+	const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 	const backgroundColor = args.backgroundColor || "#d4d3d2";
 
 	const render = () => {

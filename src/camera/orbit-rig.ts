@@ -1,7 +1,6 @@
-import { inverse, multiplyMatrix, rotation } from "../../lib/mat3x3";
+import { multiplyMatrix, rotation } from "../../lib/mat3x3";
 import { Transform } from "../../lib/transform";
 import { Matrix3, Vector3 } from "../../lib/types";
-import { Camera } from "./camera";
 import * as Vec3 from '../../lib/vec3';
 
 export type OrbitParams = {

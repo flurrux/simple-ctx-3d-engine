@@ -22,5 +22,5 @@ export function autoAdjustCanvasSize(canvas: HTMLCanvasElement, onResize: Functi
 
 export function createCanvasInBody(): HTMLCanvasElement {
 	document.body.insertAdjacentHTML("beforeend", "<canvas></canvas>");
-	return document.querySelector("canvas");
+	return document.querySelector("canvas") as HTMLCanvasElement;
 }

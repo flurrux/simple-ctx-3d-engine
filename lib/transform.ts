@@ -1,5 +1,5 @@
-import { Matrix3, Vector2, Vector3 } from './types';
-import { inverse as inverseMatrix, multiplyVector, multiplyMatrix, identity } from './mat3x3';
+import { identity, inverse as inverseMatrix, multiplyMatrix, multiplyVector } from './mat3x3';
+import { Matrix3, Vector3 } from './types';
 import * as Vec3 from './vec3';
 
 export interface Transform {

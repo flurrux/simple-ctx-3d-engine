@@ -1,4 +1,4 @@
-import * as Vec3 from "./vec3";
+import { normalize, multiply, cross, dot, distance, add, subtract, isZero, magnitude } from "./vec3";
 import { Matrix3, Vector3 } from './types';
 
 export const identity: Matrix3 = [1, 0, 0, 0, 1, 0, 0, 0, 1];
@@ -33,19 +33,19 @@ export const inverse = (matrix: Matrix3): Matrix3 => {
 };
 
 const rotateVector = (axis: Vector3, angle: number) => ((vec: Vector3) => {
-    const sinDir = Vec3.normalize(Vec3.cross(axis, vec));
-    const axisCenter = Vec3.multiply(axis, Vec3.dot(axis, vec));
-    const cosDir = Vec3.normalize(Vec3.subtract(vec, axisCenter));
+    const sinDir = normalize(cross(axis, vec));
+    const axisCenter = multiply(axis, dot(axis, vec));
+    const cosDir = normalize(subtract(vec, axisCenter));
     const [sin, cos] = [Math.sin(angle), Math.cos(angle)];
-    const radius = Vec3.distance(axisCenter, vec);
-    return Vec3.add(axisCenter, Vec3.multiply(Vec3.add(Vec3.multiply(sinDir, sin), Vec3.multiply(cosDir, cos)), radius));
+    const radius = distance(axisCenter, vec);
+    return add(axisCenter, multiply(add(multiply(sinDir, sin), multiply(cosDir, cos)), radius));
 });
 export const rotation = (vector: Vector3) : Matrix3 => {
-    if (Vec3.isZero(vector)){
+    if (isZero(vector)){
         return identity;
     }
-    const axis = Vec3.normalize(vector);
-    const angle = Vec3.magnitude(vector);
+    const axis = normalize(vector);
+    const angle = magnitude(vector);
     const rotateFunc = rotateVector(axis, angle);
     return [
         ...rotateFunc([1, 0, 0]),

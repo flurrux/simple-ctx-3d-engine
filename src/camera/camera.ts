@@ -1,7 +1,7 @@
 import { multiplyVector } from '../../lib/mat3x3';
 import { inverseTransformTransform, Transform } from '../../lib/transform';
 import { Vector3, Matrix3 } from '../../lib/types';
-import * as Vec3 from '../../lib/vec3';
+import { subtract } from '../../lib/vec3';
 
 export interface Camera {
 	transform: Transform,
@@ -11,7 +11,7 @@ export interface Camera {
 export const toCamSpace = (cam: Camera) => (worldPoint: Vector3): Vector3 => {
 	return multiplyVector(
 		cam.inverseMatrix, 
-		Vec3.subtract(worldPoint, cam.transform.position)
+		subtract(worldPoint, cam.transform.position)
 	) 
 };
 

@@ -1,7 +1,7 @@
-import { flow, identity } from 'fp-ts/es6/function';
+import { flow } from 'fp-ts/es6/function';
 import { multiplyVector } from '../lib/mat3x3';
 import { Vector2, Vector3 } from '../lib/types';
-import * as Vec3 from '../lib/vec3';
+import { subtract } from '../lib/vec3';
 import { Camera } from './camera/camera';
 import { makeProjectionFunc, ProjectionFunc, ProjectionSettings } from './camera/combined-projection';
 
@@ -35,7 +35,7 @@ export const camPointToScreenPoint = (viewport: ViewportSettings, projSettings: 
 export const worldPointToCamPoint = (camera: Camera) => (worldPoint: Vector3): Vector3 => {
 	return multiplyVector(
 		camera.inverseMatrix,
-		Vec3.subtract(worldPoint, camera.transform.position)
+		subtract(worldPoint, camera.transform.position)
 	)
 };
 
