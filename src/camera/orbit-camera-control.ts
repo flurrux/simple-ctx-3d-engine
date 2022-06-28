@@ -15,6 +15,7 @@ export function setupOrbitCameraControl<T extends OrbitParams>(
 	);
 	document.addEventListener("pointermove", e => {
 		if (!dragging) return;
+		e.preventDefault();
 		transformCamera(
 			cam => ({
 				...cam,
@@ -23,6 +24,10 @@ export function setupOrbitCameraControl<T extends OrbitParams>(
 			})
 		);
 	});
+	document.addEventListener(
+		"pointerup",
+		() => dragging = false
+	);
 	canvas.addEventListener("wheel", e => {
 		e.preventDefault();
 		transformCamera(
